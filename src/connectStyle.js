@@ -30,8 +30,6 @@ export const connectStyle = componentName => component => {
         render() {
             const { theme } = this.context;
 
-            debugger;
-
             const props = {
                 ...this.props,
                 theme,
