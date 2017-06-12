@@ -19,13 +19,11 @@ export const connectStyle = componentName => component => {
             ComposedComponent.contextTypes.theme = PropTypes.string;
         }
 
+        static componentName = `Styled(${componentName})`;
+
         static contextTypes = {
             theme: PropTypes.string
         };
-
-        componentWillReceiveProps(nextProps, nextContext) {
-
-        }
 
         render() {
             const { theme } = this.context;
