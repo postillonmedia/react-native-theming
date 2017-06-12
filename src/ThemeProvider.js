@@ -8,22 +8,22 @@ export default class ThemeProvider extends React.Component {
 
     static propTypes = {
         children: PropTypes.element.isRequired,
-        theme: PropTypes.object,
+        theme: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
-        theme: {},
+        theme: undefined,
     };
 
     static childContextTypes = {
-        theme: ThemeShape.isRequired,
+        theme: PropTypes.string,
     };
 
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-            theme: props.theme || {},
+            theme: props.theme,
         };
     }
 
