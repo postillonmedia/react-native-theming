@@ -7,8 +7,6 @@ import { connect } from 'react-redux'
 
 import ThemeManager from './ThemeManager';
 
-
-
 export const connectStyle = componentName => component => {
 
     const ThemeComponent = ComposedComponent => class extends Component {
@@ -45,3 +43,5 @@ export const connectStyle = componentName => component => {
 
     return ThemeComponent(component);
 };
+
+export default connectStyle;
