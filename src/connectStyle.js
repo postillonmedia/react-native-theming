@@ -9,18 +9,22 @@ import ThemeManager from './ThemeManager';
 
 export const connectStyle = componentName => component => {
 
-    const ThemeComponent = ComposedComponent => class extends Component {
+    const getComponentDisplayName = (WrappedComponent) => {
+        return WrappedComponent.displayName || WrappedComponent.name || componentName;
+    };
+
+    const ThemeComponent = WrappedComponent => class extends Component {
         constructor() {
             super();
 
-            if (!ComposedComponent.contextTypes) {
-                ComposedComponent.contextTypes = {};
+            if (!WrappedComponent.contextTypes) {
+                WrappedComponent.contextTypes = {};
             }
-            ComposedComponent.contextTypes.theme = PropTypes.string;
+            WrappedComponent.contextTypes.theme = PropTypes.string;
         }
 
-        static displayName = `Styled(${componentName})`;
-        static componentName = `Styled(${componentName})`;
+        static displayName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
+        static componentName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
 
         static contextTypes = {
             theme: PropTypes.string
@@ -35,7 +39,7 @@ export const connectStyle = componentName => component => {
                 styles: ThemeManager.getStyleSheetForComponent(componentName, theme),
             };
 
-            return <ComposedComponent {...props} />;
+            return <WrappedComponent {...props} />;
         }
     };
 
