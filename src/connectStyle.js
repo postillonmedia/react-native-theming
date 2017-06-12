@@ -36,7 +36,6 @@ export const connectStyle = componentName => component => {
                 styles: ThemeManager.getStyleSheetForComponent(componentName),
             };
 
-            let props = Object.assign({}, this.props, {theme: null});
             return <ComposedComponent {...props} />;
         }
     };
