@@ -1,0 +1,32 @@
+{
+  "name": "react-native-theme",
+  "version": "1.0.0",
+  "description": "A theming library for react native",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://danielang@bitbucket.org/szynka/react-native-theme.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "theme",
+    "theming"
+  ],
+  "author": "Daniel Lang",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/szynka/react-native-theme#readme",
+  "peerDependencies": {
+    "react": ">= 15.5.4",
+    "react-redux": ">= 4.4.5"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "react": "*",
+    "react-redux": "*",
+    "redux": "*"
+  }
+}
