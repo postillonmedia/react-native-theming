@@ -2,7 +2,7 @@
  * Created by DanielL on 10.06.2017.
  */
 
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
 
 import ThemeManager from './ThemeManager';
