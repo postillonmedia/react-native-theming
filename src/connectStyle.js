@@ -19,15 +19,31 @@ export const connectStyle = componentName => component => {
             if (!WrappedComponent.contextTypes) {
                 WrappedComponent.contextTypes = {};
             }
-            WrappedComponent.contextTypes.theme = PropTypes.string;
+            WrappedComponent.contextTypes.theme = PropTypes.object;
         }
 
         static displayName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
         static componentName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
 
         static contextTypes = {
-            theme: PropTypes.string
+            theme: PropTypes.object,
         };
+
+        componentDidMount() {
+            const { theme } = this.context;
+
+            this.subscription = theme.subscribe((theme) => {
+                debugger;
+
+                console.log(theme);
+            })
+        }
+
+        componentWillUnmount() {
+            if (this.subscription) {
+                this.subscription();
+            }
+        }
 
         render() {
             const { theme } = this.context;

@@ -4,6 +4,8 @@
 
 import React, { Children, PropTypes } from 'react';
 
+import ThemeSubscription from './ThemeSubscription';
+
 export default class ThemeProvider extends React.Component {
 
     static propTypes = {
@@ -16,28 +18,24 @@ export default class ThemeProvider extends React.Component {
     };
 
     static childContextTypes = {
-        theme: PropTypes.string,
+        theme: PropTypes.object,
     };
 
     constructor(props, context) {
         super(props, context);
 
-        this.state = {
-            theme: props.theme,
-        };
+        this.subscription = new ThemeSubscription(props.theme);
     }
 
     getChildContext() {
         return {
-            theme: this.state.theme,
+            theme: this.subscription,
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.theme !== this.props.theme) {
-            this.setState({
-                theme: nextProps.theme,
-            });
+            this.subscription.setTheme(nextProps.theme);
         }
     }
 
