@@ -13,13 +13,19 @@ export const connectStyle = componentName => component => {
     };
 
     const ThemeComponent = WrappedComponent => class extends Component {
-        constructor() {
+        constructor(props, context) {
             super();
 
-            if (!WrappedComponent.contextTypes) {
-                WrappedComponent.contextTypes = {};
-            }
+
+            if (!WrappedComponent.contextTypes) { WrappedComponent.contextTypes = {}; }
             WrappedComponent.contextTypes.theme = PropTypes.object;
+
+
+            const { theme } = context;
+
+            this.state = {
+                theme: theme.getTheme(),
+            }
         }
 
         static displayName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
@@ -33,9 +39,9 @@ export const connectStyle = componentName => component => {
             const { theme } = this.context;
 
             this.subscription = theme.subscribe((theme) => {
-                debugger;
-
-                console.log(theme);
+                this.setState({
+                    theme,
+                });
             })
         }
 
@@ -46,7 +52,7 @@ export const connectStyle = componentName => component => {
         }
 
         render() {
-            const { theme } = this.context;
+            const { theme } = this.state;
 
             const props = {
                 ...this.props,
