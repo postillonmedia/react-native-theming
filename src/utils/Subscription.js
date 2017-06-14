@@ -20,14 +20,14 @@ export class Subscription {
 
     subscribe(listener) {
         let isSubscribed = true;
-        if (this.next === current) this.next = this.current.slice();
+        if (this.next === this.current) this.next = this.current.slice();
         this.next.push(listener);
 
         return function unsubscribe() {
             if (!isSubscribed || this.current === CLEARED) return;
             isSubscribed = false;
 
-            if (this.next === current) this.next = this.current.slice();
+            if (this.next === this.current) this.next = this.current.slice();
             this.next.splice(this.next.indexOf(listener), 1);
         };
     }

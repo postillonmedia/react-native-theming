@@ -38,7 +38,7 @@ export const connectStyle = componentName => component => {
         componentDidMount() {
             const { theme } = this.context;
 
-            this.subscription = theme.subscribe((theme) => {
+            this.unsubscribe = theme.subscribe((theme) => {
                 this.setState({
                     theme,
                 });
@@ -46,8 +46,8 @@ export const connectStyle = componentName => component => {
         }
 
         componentWillUnmount() {
-            if (this.subscription) {
-                this.subscription();
+            if (this.unsubscribe) {
+                this.unsubscribe();
             }
         }
 
