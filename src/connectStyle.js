@@ -16,16 +16,17 @@ export const connectStyle = componentName => component => {
         constructor(props, context) {
             super();
 
-
-            if (!WrappedComponent.contextTypes) { WrappedComponent.contextTypes = {}; }
-            WrappedComponent.contextTypes.theme = PropTypes.object;
-
-
             const { theme } = context;
 
             this.state = {
                 theme: theme.getTheme(),
-            }
+            };
+
+            this.unsubscribe = theme.subscribe((theme) => {
+                this.setState({
+                    theme,
+                });
+            });
         }
 
         static displayName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
@@ -34,16 +35,6 @@ export const connectStyle = componentName => component => {
         static contextTypes = {
             theme: PropTypes.object,
         };
-
-        componentDidMount() {
-            const { theme } = this.context;
-
-            this.unsubscribe = theme.subscribe((theme) => {
-                this.setState({
-                    theme,
-                });
-            })
-        }
 
         componentWillUnmount() {
             if (this.unsubscribe) {
