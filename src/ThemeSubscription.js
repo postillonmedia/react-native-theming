@@ -23,3 +23,5 @@ export class ThemeSubscription extends Subscription {
     }
     
 }
+
+export default ThemeSubscription;
