@@ -20,13 +20,12 @@
   "license": "MIT",
   "homepage": "https://bitbucket.org/szynka/react-native-theme#readme",
   "peerDependencies": {
-    "react": ">= 15.5.4",
-    "react-redux": ">= 4.4.5"
+    "react": ">= 15.5.4"
   },
   "dependencies": {},
   "devDependencies": {
+    "prop-types": "*",
     "react": "*",
-    "react-redux": "*",
-    "redux": "*"
+    "react-native": "*"
   }
 }

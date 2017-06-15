@@ -2,6 +2,8 @@
  * Created by DanielL on 12.06.2017.
  */
 
+import { StyleSheet } from 'react-native';
+
 class ThemeManagerClass {
 
     themes;
@@ -22,7 +24,13 @@ class ThemeManagerClass {
             this.themes[theme] = {};
         }
 
-        this.themes[theme][component] = stylesheet;
+        if (!this.themes[theme][component]) {
+            // new stylesheet for this component
+            this.themes[theme][component] = stylesheet;
+        } else {
+            // merge stylesheet with existing
+            this.themes[theme][component] = StyleSheet.flatten(this.themes[theme][component], stylesheet);
+        }
     }
 
     getStyleSheetForComponent(component, theme = 'default') {
@@ -33,7 +41,14 @@ class ThemeManagerClass {
             throw Error('Theme must be a string');
         }
 
-        return this.themes[theme][component];
+        const stylesheet = this.themes[theme][component];
+
+        if (!stylesheet) {
+            console.warn('There is no StyleSheet added for the connected Component');
+            return {};
+        }
+
+        return stylesheet;
     }
 }
 

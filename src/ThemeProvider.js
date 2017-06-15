@@ -2,11 +2,12 @@
  * Created by DanielL on 10.06.2017.
  */
 
-import React, { Children, PropTypes } from 'react';
+import React, { Children, Component } from 'react';
+import PropTypes from 'prop-types';
 
 import ThemeSubscription from './ThemeSubscription';
 
-export default class ThemeProvider extends React.Component {
+export default class ThemeProvider extends Component {
 
     static propTypes = {
         children: PropTypes.element.isRequired,
