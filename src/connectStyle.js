@@ -50,6 +50,7 @@ export const connectStyle = componentName => component => {
                 ...this.props,
                 theme,
                 styles: ThemeManager.getStyleSheetForComponent(componentName, theme),
+                constants: ThemeManager.getConstantsForTheme(theme),
             };
 
             return <WrappedComponent {...props} />;

@@ -6,10 +6,12 @@ import { StyleSheet } from 'react-native';
 
 class ThemeManagerClass {
 
-    themes;
+    stylesheets;
+    constants;
 
     constructor() {
-        this.themes = {};
+        this.stylesheets = {};
+        this.constants = {};
     }
 
     addStyleSheet(stylesheet, component, theme = 'default') {
@@ -20,16 +22,16 @@ class ThemeManagerClass {
             throw Error('Theme must be a string');
         }
 
-        if (!this.themes[theme]) {
-            this.themes[theme] = {};
+        if (!this.stylesheets[theme]) {
+            this.stylesheets[theme] = {};
         }
 
-        if (!this.themes[theme][component]) {
+        if (!this.stylesheets[theme][component]) {
             // new stylesheet for this component
-            this.themes[theme][component] = stylesheet;
+            this.stylesheets[theme][component] = stylesheet;
         } else {
             // merge stylesheet with existing
-            this.themes[theme][component] = StyleSheet.flatten(this.themes[theme][component], stylesheet);
+            this.stylesheets[theme][component] = StyleSheet.flatten(this.stylesheets[theme][component], stylesheet);
         }
     }
 
@@ -41,7 +43,7 @@ class ThemeManagerClass {
             throw Error('Theme must be a string');
         }
 
-        const stylesheet = this.themes[theme][component];
+        const stylesheet = this.stylesheets[theme][component];
 
         if (!stylesheet) {
             console.warn('There is no StyleSheet added for the connected Component');
@@ -49,6 +51,25 @@ class ThemeManagerClass {
         }
 
         return stylesheet;
+    }
+
+    addConstants(constants, theme) {
+        if (typeof theme !== 'string') {
+            throw Error('Theme must be a string');
+        }
+
+        this.constants[theme] = constants;
+    }
+
+    getConstantsForTheme(theme) {
+        const constants = this.constants[theme];
+
+        if (!constants) {
+            console.warn('There is no Constants added for the current Theme');
+            return {};
+        }
+
+        return constants;
     }
 }
 
