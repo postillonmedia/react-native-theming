@@ -7,7 +7,15 @@ import PropTypes from 'prop-types';
 
 import ThemeManager from './ThemeManager';
 
-export const connectStyle = componentName => component => {
+const defaultOptions = {
+    themePropsName: 'theme',
+    stylesPropsName: 'styles',
+    constantsPropsName: 'constants',
+};
+
+export const connectStyle = (componentName, customOptions = {}) => component => {
+
+    const options = Object.assign({}, defaultOptions, customOptions);
 
     const getComponentDisplayName = (WrappedComponent) => {
         return WrappedComponent.displayName || WrappedComponent.name || componentName;
@@ -46,11 +54,14 @@ export const connectStyle = componentName => component => {
         render() {
             const { theme } = this.state;
 
+            const styles = ThemeManager.getStyleSheetForComponent(componentName, theme);
+            const constants = ThemeManager.getConstantsForTheme(theme);
+
             const props = {
                 ...this.props,
-                theme,
-                styles: ThemeManager.getStyleSheetForComponent(componentName, theme),
-                constants: ThemeManager.getConstantsForTheme(theme),
+                [options.themePropsName]: theme,
+                [options.stylesPropsName]: styles,
+                [options.constantsPropsName]: constants,
             };
 
             return <WrappedComponent {...props} />;
