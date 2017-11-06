@@ -11,6 +11,7 @@ const defaultOptions = {
     themePropsName: 'theme',
     stylesPropsName: 'styles',
     constantsPropsName: 'constants',
+    callback: undefined,
 };
 
 export const connectStyle = (componentName, customOptions = {}) => component => {
@@ -26,6 +27,7 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
             super();
 
             const { theme } = context;
+            const { callback } = options;
 
             this.state = {
                 theme: theme.getTheme(),
@@ -35,6 +37,10 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
                 this.setState({
                     theme,
                 });
+
+                if (callback && typeof callback === 'function') {
+                    callback(theme, this.props);
+                }
             });
         }
 
