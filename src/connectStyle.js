@@ -1,11 +1,12 @@
 /**
  * Created by DanielL on 10.06.2017.
  */
-
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import hoistStatics from 'hoist-non-react-statics';
 
 import ThemeManager from './ThemeManager';
+
 
 const defaultOptions = {
     themePropsName: 'theme',
@@ -68,7 +69,7 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
         }
     };
 
-    return ThemeComponent(component);
+    return hoistStatics(ThemeComponent(component), component);
 };
 
 export default connectStyle;
