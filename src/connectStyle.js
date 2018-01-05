@@ -2,7 +2,7 @@
  * Created by DanielL on 10.06.2017.
  */
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 
 import ThemeManager from './ThemeManager';
@@ -23,7 +23,7 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
         return WrappedComponent.displayName || WrappedComponent.name || componentName;
     };
 
-    const ThemeComponent = WrappedComponent => class extends Component {
+    const ThemeComponent = WrappedComponent => class extends PureComponent {
         constructor(props, context) {
             super();
 
