@@ -34,12 +34,14 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
                 theme: theme.getTheme(),
             };
 
-            this.unsubscribe = theme.subscribe((theme) => {
+            this.unsubscribe = theme.subscribe((nextTheme) => {
                 this.setState({
-                    theme,
+                    theme: nextTheme,
                 });
 
-                if (callback && typeof callback === 'function' && this.state.theme) {
+                const prevTheme = this.state.theme;
+
+                if (callback && typeof callback === 'function' && prevTheme !== nextTheme) {
                     callback(theme, this.props);
                 }
             });
