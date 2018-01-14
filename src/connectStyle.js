@@ -42,7 +42,7 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
                 const prevTheme = this.state.theme;
 
                 if (callback && typeof callback === 'function' && prevTheme !== nextTheme) {
-                    callback(theme, this.props);
+                    callback(nextTheme, this.props);
                 }
             });
         }
