@@ -39,7 +39,7 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
                     theme,
                 });
 
-                if (callback && typeof callback === 'function') {
+                if (callback && typeof callback === 'function' && this.state.theme) {
                     callback(theme, this.props);
                 }
             });
