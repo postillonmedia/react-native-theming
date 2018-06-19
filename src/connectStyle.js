@@ -24,6 +24,16 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
     };
 
     const ThemeComponent = WrappedComponent => class extends PureComponent {
+
+        static displayName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
+        static componentName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
+
+        static contextTypes = {
+            theme: PropTypes.object,
+        };
+
+        mounted = null;
+
         constructor(props, context) {
             super();
 
@@ -35,26 +45,27 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
             };
 
             this.unsubscribe = theme.subscribe((nextTheme) => {
-                this.setState({
-                    theme: nextTheme,
-                });
+                if (this.mounted) {
+                    this.setState({
+                        theme: nextTheme,
+                    });
 
-                const prevTheme = this.state.theme;
+                    const prevTheme = this.state.theme;
 
-                if (callback && typeof callback === 'function' && prevTheme !== nextTheme) {
-                    callback(nextTheme, this.props);
+                    if (callback && typeof callback === 'function' && prevTheme !== nextTheme) {
+                        callback(nextTheme, this.props);
+                    }
                 }
             });
         }
 
-        static displayName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
-        static componentName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
-
-        static contextTypes = {
-            theme: PropTypes.object,
-        };
+        componentDidMount() {
+            this.mounted = true;
+        }
 
         componentWillUnmount() {
+            this.mounted = false;
+
             if (this.unsubscribe) {
                 this.unsubscribe();
             }
