@@ -2,48 +2,35 @@
  * Created by DanielL on 10.06.2017.
  */
 
-import React, { Children, Component } from 'react';
+import React, { Children, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import ThemeSubscription from './ThemeSubscription';
+import ThemeContext from './Context';
 
-export default class ThemeProvider extends Component {
+export default class ThemeProvider extends PureComponent {
 
     static propTypes = {
         children: PropTypes.element.isRequired,
         theme: PropTypes.string.isRequired,
+        context: PropTypes.object,
     };
 
     static defaultProps = {
         theme: undefined,
     };
 
-    static childContextTypes = {
-        theme: PropTypes.object,
-    };
-
-    constructor(props, context) {
-        super(props, context);
-
-        this.subscription = new ThemeSubscription(props.theme);
-    }
-
-    getChildContext() {
-        return {
-            theme: this.subscription,
-        };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.theme !== this.props.theme) {
-            this.subscription.setTheme(nextProps.theme);
-        }
+    constructor(props) {
+        super(props);
     }
 
     render() {
-        const { children } = this.props;
+        const { children, context: Context = ThemeContext, theme } = this.props;
 
-        return Children.only(children);
+        return (
+            <Context.Provider value={{theme}}>
+                {children}
+            </Context.Provider>
+        );
     }
 
 }

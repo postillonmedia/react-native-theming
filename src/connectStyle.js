@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 
+import ThemeContext from './Context';
 import ThemeManager from './ThemeManager';
 
 
@@ -28,51 +29,11 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
         static displayName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
         static componentName = `Styled(${getComponentDisplayName(WrappedComponent)})`;
 
-        static contextTypes = {
-            theme: PropTypes.object,
-        };
-
-        mounted = null;
-
-        constructor(props, context) {
-            super();
-
-            const { theme } = context;
-            const { callback } = options;
-
-            this.state = {
-                theme: theme.getTheme(),
-            };
-
-            this.unsubscribe = theme.subscribe((nextTheme) => {
-                if (this.mounted) {
-                    this.setState({
-                        theme: nextTheme,
-                    });
-
-                    const prevTheme = this.state.theme;
-
-                    if (callback && typeof callback === 'function' && prevTheme !== nextTheme) {
-                        callback(nextTheme, this.props);
-                    }
-                }
-            });
-        }
-
-        componentDidMount() {
-            this.mounted = true;
-        }
-
-        componentWillUnmount() {
-            this.mounted = false;
-
-            if (this.unsubscribe) {
-                this.unsubscribe();
-            }
-        }
+        static contextType = ThemeContext;
 
         render() {
-            const { theme } = this.state;
+            const { callback } = options;
+            const { theme } = this.context;
 
             const styles = ThemeManager.getStyleSheetForComponent(componentName, theme);
             const constants = ThemeManager.getConstantsForTheme(theme);
@@ -83,6 +44,10 @@ export const connectStyle = (componentName, customOptions = {}) => component => 
                 [options.stylesPropsName]: styles,
                 [options.constantsPropsName]: constants,
             };
+
+            if (callback && typeof callback === 'function') {
+                callback(theme, props);
+            }
 
             return <WrappedComponent {...props} />;
         }
